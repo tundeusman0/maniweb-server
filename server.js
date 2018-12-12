@@ -4,6 +4,11 @@ const fs = require('fs');
 
 let app = express();
 
+const port = process.env.PORT || 3000
+// app.use((req, res, next) => {
+//     res.render('maintenance.hbs')
+// })
+
 hbs.registerHelper('getCurrentYear', () => `top ${new Date().getFullYear()}`)
 hbs.registerHelper('upperCase',(text)=>text.toUpperCase())
 hbs.registerPartials(__dirname + '/views/partials')
@@ -18,9 +23,7 @@ app.use((req,res,next)=>{
     fs.appendFileSync('server.log',`${log} \n`)
     next();
 })
-app.use((req,res,next)=>{
-    res.render('maintenance.hbs')
-})
+
 
 app.get('/',(req,res)=>{
     res.render('home.hbs',{
@@ -35,4 +38,4 @@ app.get('/about',(req,res)=>{
         pageHeader:'About Page'
     })
 })
-app.listen(3000,()=>console.log('we are up on port 3000'));
+app.listen(port,()=>console.log(`we are up on port ${port}`));
